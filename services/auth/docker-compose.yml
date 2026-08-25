@@ -1,0 +1,24 @@
+services:
+  auth-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: auth_db
+    ports:
+      - "5452:5432" # Map to a unique host port to avoid collision with order-db
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
+  auth-app:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - auth-db
+    environment:
+      - DB_HOST=auth-db # Connect using the service name inside the container network
+
+volumes:
+  auth_db_data:
