@@ -1,0 +1,12 @@
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/bin/Debug/net10.0/Contracts.deps.json
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/bin/Debug/net10.0/Contracts.dll
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/bin/Debug/net10.0/Contracts.pdb
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.GeneratedMSBuildEditorConfig.editorconfig
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.AssemblyInfoInputs.cache
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.AssemblyInfo.cs
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.csproj.CoreCompileInputs.cache
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.sourcelink.json
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.dll
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/refint/Contracts.dll
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/Contracts.pdb
+/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/obj/Debug/net10.0/ref/Contracts.dll

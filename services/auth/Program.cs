@@ -1,41 +1,61 @@
 using Microsoft.EntityFrameworkCore;
-using auth.Data
+using auth.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register DbContext with Dependency Injection (Example using SQL Server)
+// ===== SERVICES =====
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
-builder.Services.AddControllersWithViews();
-var app = builder.Build();
+builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 
-var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = false
+        };
+    });
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddAuthorization();
 
-var app = builder.Build();
+var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
+var rabbitUser = builder.Configuration["RabbitMq:Username"] ?? "admin";
+var rabbitPass = builder.Configuration["RabbitMq:Password"] ?? "password123";
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+builder.Services.AddMassTransit(x =>
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    x.UsingRabbitMq((context, cfg) => 
+    {
+        cfg.Host(rabbitHost, "/", h =>
+        {
+            h.Username(rabbitUser);
+            h.Password(rabbitPass);
+        });
 
-app.UseHttpsRedirection();
-app.UseRouting();
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
+// ===== BUILD (the divider) =====
+var app = builder.Build();
+
+// ===== MIDDLEWARE =====
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+app.MapControllers();
+app.MapHealthChecks("/health");
 
 app.Run();

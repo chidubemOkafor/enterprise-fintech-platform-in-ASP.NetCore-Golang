@@ -7,18 +7,27 @@ services:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_DB: auth_db
     ports:
-      - "5452:5432" # Map to a unique host port to avoid collision with order-db
+      - "5452:5432"
     volumes:
       - auth_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   auth-app:
     build: .
     ports:
-      - "8081:8081"
+      - "8081:8080"
     depends_on:
-      - auth-db
+      auth-db:
+        condition: service_healthy
     environment:
-      - DB_HOST=auth-db # Connect using the service name inside the container network
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=auth-db;Port=5432;User Id=auth_user;Password=securepassword;Database=auth_db;
+      - DB_HOST=auth-db
+    restart: unless-stopped
 
 volumes:
   auth_db_data:

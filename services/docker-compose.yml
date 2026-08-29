@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: fintech-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - fintech
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+ # ===== databases =====
+  auth-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: auth_db
+    ports:
+      - "5452:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    networks:
+      - fintech
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  account-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: account_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: account_db
+    ports:
+      - "5453:5432"
+    volumes:
+      - account_db_data:/var/lib/postgresql/data
+    networks:
+      - fintech
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U account_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+ # ===== services =====
+  auth-app:
+    build: ./services/auth 
+    ports:
+      - "8081:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      auth-db:
+        condition: service_healthy
+
+    networks:
+      - fintech
+      
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=auth-db;Port=5432;Database=auth_db;Username=auth_user;Password=securepassword
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Username=admin
+      - RabbitMq__Password=password123
+    restart: unless-stopped
+
+  account-app:
+    build: ./services/account 
+    ports:
+      - "8082:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      account-db:
+        condition: service_healthy
+
+    networks:
+      - fintech
+      
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=account-db;Port=5432;Database=account_db;Username=account_user;Password=securepassword
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Username=admin
+      - RabbitMq__Password=password123
+    restart: unless-stopped
+
+networks:
+  fintech:
+    driver: bridge
+
+volumes:           
+  rabbitmq_data:
+  auth_db_data:
+  account_db_data:
