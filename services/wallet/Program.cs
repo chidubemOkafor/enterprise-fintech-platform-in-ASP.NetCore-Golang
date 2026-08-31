@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using auth.Data;
+using wallet.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MassTransit;
@@ -42,12 +42,6 @@ builder.Services.AddMassTransit(x =>
 });
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 
 app.UseHttpsRedirection();
 
