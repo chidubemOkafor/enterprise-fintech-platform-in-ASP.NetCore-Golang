@@ -22,6 +22,13 @@ var rabbitPass = builder.Configuration["RabbitMq:Password"] ?? "password123";
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
+    {
+        o.QueryDelay = TimeSpan.FromSeconds(10);
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+
     x.AddConsumer<UserRegisteredConsumer>(); 
 
     x.UsingRabbitMq((context, cfg) =>
@@ -34,6 +41,8 @@ builder.Services.AddMassTransit(x =>
 
         cfg.ConfigureEndpoints(context); 
     });
+
+
 });
 
 // ===== BUILD (the divider) =====

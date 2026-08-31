@@ -3287,11 +3287,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/account/account.csproj",
-      "projectName": "account",
-      "projectPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/account/account.csproj",
+      "projectUniqueName": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj",
+      "projectName": "wallet",
+      "projectPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj",
       "packagesPath": "/home/dubem/.nuget/packages/",
-      "outputPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/account/obj/",
+      "outputPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/dubem/.nuget/NuGet/NuGet.Config"

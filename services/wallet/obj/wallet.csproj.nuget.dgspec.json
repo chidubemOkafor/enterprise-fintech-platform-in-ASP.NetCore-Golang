@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/auth/auth.csproj": {}
+    "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj": {}
   },
   "projects": {
     "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/Contracts/Contracts.csproj": {
@@ -339,14 +339,14 @@
         }
       }
     },
-    "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/auth/auth.csproj": {
+    "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/auth/auth.csproj",
-        "projectName": "auth",
-        "projectPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/auth/auth.csproj",
+        "projectUniqueName": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj",
+        "projectName": "wallet",
+        "projectPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/wallet.csproj",
         "packagesPath": "/home/dubem/.nuget/packages/",
-        "outputPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/auth/obj/",
+        "outputPath": "/home/dubem/enterprise-fintech-platform-in-ASP.NetCore-Golang/services/wallet/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/dubem/.nuget/NuGet/NuGet.Config"

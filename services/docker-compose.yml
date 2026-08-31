@@ -59,6 +59,24 @@ services:
       timeout: 5s
       retries: 5
 
+  wallet-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: wallet_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: wallet_db
+    ports:
+      - "5454:5432"
+    volumes:
+      - wallet_db_data:/var/lib/postgresql/data
+    networks:
+      - fintech
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wallet_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
  # ===== services =====
   auth-app:
@@ -111,3 +129,4 @@ volumes:
   rabbitmq_data:
   auth_db_data:
   account_db_data:
+  wallet_db_data:

@@ -54,9 +54,11 @@ public class AuthController: Controller
         user.Password = _hasher.HashPassword(user, request.Password);
 
         _context.Auths.Add(user);
+
         await _context.SaveChangesAsync();
 
-        // a message broker should be used here and send the {first name, last name and email}
+        _logger.LogInformation("1");
+
         await _publish.Publish(new UserRegistered
         {
             UserId = user.Id,
@@ -65,6 +67,10 @@ public class AuthController: Controller
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber
         });
+
+        _logger.LogInformation("2");
+
+        await _context.SaveChangesAsync(); 
 
         _logger.LogInformation("Registered new user {Email}", user.Email);
 

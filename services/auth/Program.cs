@@ -36,7 +36,14 @@ var rabbitPass = builder.Configuration["RabbitMq:Password"] ?? "password123";
 
 builder.Services.AddMassTransit(x =>
 {
-    x.UsingRabbitMq((context, cfg) => 
+    x.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
+    {
+        o.QueryDelay = TimeSpan.FromSeconds(10);
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+
+    x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitHost, "/", h =>
         {

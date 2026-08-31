@@ -44,6 +44,23 @@
           }
         }
       },
+      "MassTransit.EntityFrameworkCore/8.3.0": {
+        "type": "package",
+        "dependencies": {
+          "MassTransit": "8.3.0",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/MassTransit.EntityFrameworkCoreIntegration.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MassTransit.EntityFrameworkCoreIntegration.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "MassTransit.RabbitMQ/8.3.0": {
         "type": "package",
         "dependencies": {
@@ -1139,6 +1156,25 @@
         "lib/netstandard2.0/MassTransit.Abstractions.xml",
         "masstransit.abstractions.8.3.0.nupkg.sha512",
         "masstransit.abstractions.nuspec",
+        "mt-logo-small.png"
+      ]
+    },
+    "MassTransit.EntityFrameworkCore/8.3.0": {
+      "sha512": "P/dyCBOcLVBTjeh7BeM+hJYntBMpbhDRjbD/7xbWo2EWOaLl3T3FggiJFXiDHGjXw+0fqRxuQ4xbMtL2PrW3ag==",
+      "type": "package",
+      "path": "masstransit.entityframeworkcore/8.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "NuGet.README.md",
+        "lib/net6.0/MassTransit.EntityFrameworkCoreIntegration.dll",
+        "lib/net6.0/MassTransit.EntityFrameworkCoreIntegration.xml",
+        "lib/net8.0/MassTransit.EntityFrameworkCoreIntegration.dll",
+        "lib/net8.0/MassTransit.EntityFrameworkCoreIntegration.xml",
+        "lib/netstandard2.0/MassTransit.EntityFrameworkCoreIntegration.dll",
+        "lib/netstandard2.0/MassTransit.EntityFrameworkCoreIntegration.xml",
+        "masstransit.entityframeworkcore.8.3.0.nupkg.sha512",
+        "masstransit.entityframeworkcore.nuspec",
         "mt-logo-small.png"
       ]
     },
@@ -3237,6 +3273,7 @@
     "net10.0": [
       "Contracts >= 1.0.0",
       "MassTransit >= 8.3.0",
+      "MassTransit.EntityFrameworkCore >= 8.3.0",
       "MassTransit.RabbitMQ >= 8.3.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.11",
       "Microsoft.EntityFrameworkCore >= 10.0.0",
@@ -3294,6 +3331,10 @@
         "targetAlias": "net10.0",
         "dependencies": {
           "MassTransit": {
+            "target": "Package",
+            "version": "[8.3.0, )"
+          },
+          "MassTransit.EntityFrameworkCore": {
             "target": "Package",
             "version": "[8.3.0, )"
           },
