@@ -29,5 +29,4 @@ public class WalletController: Controller
         if (wallet is null) return NotFound();
         return Ok(new { wallet.UserId, wallet.CachedBalance, wallet.AccountNumber});
     }
-
 }
