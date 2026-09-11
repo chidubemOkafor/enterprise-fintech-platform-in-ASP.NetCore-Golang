@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using MassTransit;
 using account.Data;
 using account.Consumers;
+using account.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
 builder.Services.AddHealthChecks();
 
 var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
@@ -50,6 +52,7 @@ var app = builder.Build();
 
 // ===== MIDDLEWARE =====
 
+app.MapGrpcService<AccountGrpcService>();
 app.MapControllers();
 app.MapHealthChecks("/health");
 

@@ -1,0 +1,9 @@
+# Local build output must never enter the image: it bloats the context and
+# stale obj/ artifacts break the build when host and container SDKs differ.
+**/bin
+**/obj
+
+**/.vs
+**/.vscode
+**/*.user
+**/.git

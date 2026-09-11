@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package account;
+
+// Generated C# lands in this namespace. Set explicitly so it never collides
+// with the `account.*` namespaces inside the account service itself.
+option csharp_namespace = "Contracts.Grpc";
+
+message GetUserRequest {
+    int32 user_id = 1;
+}
+
+message GetUserResponse {
+    int32 user_id = 1;
+    string email = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string phone_number = 5;
+}
+
+service AccountService {
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}

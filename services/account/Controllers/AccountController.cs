@@ -29,4 +29,17 @@ public class AccountController: Controller
         var users = await _context.Accounts.ToListAsync();
         return Ok(users);
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetUser([FromHeader(Name = "X-User-ID")] string userId)
+    {
+        var user = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+        
+        if (user is null)
+            return NotFound(new { message = "User not found" });
+        
+        return Ok(user);
+    }
+
 }
