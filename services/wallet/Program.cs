@@ -3,6 +3,8 @@ using wallet.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MassTransit;
+using Contracts.Grpc;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +16,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.AddGrpcClient<AccountService.AccountServiceClient>(o =>
+    o.Address = new Uri(builder.Configuration["Services:Account:GrpcUrl"]!));
+
 builder.Services.AddControllers();
-builder.Services.AddGrpc();
+// builder.Services.AddGrpc();
 
 var rabbitHost = builder.Configuration["RabbitMq:Host"] ?? "localhost";
 var rabbitUser = builder.Configuration["RabbitMq:Username"] ?? "admin";

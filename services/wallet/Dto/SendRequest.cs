@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace wallet.Dto;
 
 public class SendRequest {
