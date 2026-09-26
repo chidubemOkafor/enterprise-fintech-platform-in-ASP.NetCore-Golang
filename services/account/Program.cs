@@ -24,6 +24,10 @@ var rabbitPass = builder.Configuration["RabbitMq:Password"] ?? "password123";
 
 builder.Services.AddMassTransit(x =>
 {
+    // Without a per-service prefix both services name their queue "UserRegistered"
+    // and compete for the same messages instead of each getting a copy.
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("account", false));
+
     x.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
     {
         o.QueryDelay = TimeSpan.FromSeconds(10);

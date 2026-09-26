@@ -31,14 +31,20 @@ public class AccountController: Controller
     }
 
 
-    [HttpGet]
+    [HttpGet("me")]
     public async Task<IActionResult> GetUser([FromHeader(Name = "X-User-ID")] string userId)
     {
-        var user = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
-        
+        if (!int.TryParse(userId, out var id))
+            return BadRequest(new { message = "X-User-ID header must be an integer" });
+
+        var user = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId == id);
+
         if (user is null)
             return NotFound(new { message = "User not found" });
         
+        // the account should return 
+        // 1. the account number 
+        // 2. 
         return Ok(user);
     }
 

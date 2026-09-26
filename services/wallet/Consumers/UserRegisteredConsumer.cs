@@ -1,10 +1,11 @@
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using wallet.Data;
 using wallet.Models;
 using Contracts.Events;  
 using wallet.Services;
 
-namespace account.Consumers;
+namespace wallet.Consumers;
 
 public class UserRegisteredConsumer : IConsumer<UserRegistered>
 {
@@ -26,11 +27,17 @@ public class UserRegisteredConsumer : IConsumer<UserRegistered>
         _logger.LogInformation("Received UserRegistered for {Email}", evt.Email);
 
         // build a profile row from the event data
+        if (await _context.Wallets.AnyAsync(w => w.UserId == evt.UserId, context.CancellationToken))
+        {
+            _logger.LogInformation("Wallet already exists for user {UserId}, skipping", evt.UserId);
+            return;
+        }
+
         var wallet = new WalletModel
         {
             UserId = evt.UserId,        // the shared id linking back to auth
             AccountNumber = await _accountNumbers.GenerateAsync(context.CancellationToken),
-            CachedBalance = "0",
+            CachedBalance = 0m,
         };
 
         _context.Wallets.Add(wallet);

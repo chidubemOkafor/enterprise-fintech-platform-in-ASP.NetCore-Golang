@@ -18,6 +18,12 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<WalletModel>(w =>
+        {
+            w.Property(x => x.CachedBalance).HasPrecision(18, 2);
+            w.HasIndex(x => x.AccountNumber).IsUnique();
+        });
+
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();

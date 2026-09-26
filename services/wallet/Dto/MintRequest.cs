@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace wallet.Dto;
 
-public class SendRequest {
+public class MintRequest {
     [Required]
     public string AccountNumber { get; set; } = string.Empty;
 

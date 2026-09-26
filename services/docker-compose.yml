@@ -78,6 +78,25 @@ services:
       timeout: 5s
       retries: 5
 
+  ledger-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ledger_user
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: ledger_db
+    ports:
+      - "5455:5432"
+    volumes:
+      - ledger_db_data:/var/lib/postgresql/data
+    networks:
+      - fintech
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ledger_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   # ===== services =====
   auth-app:
     build:
@@ -135,3 +154,4 @@ volumes:
   auth_db_data:
   account_db_data:
   wallet_db_data:
+  ledger_db_data:
